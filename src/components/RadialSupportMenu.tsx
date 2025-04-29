@@ -99,7 +99,7 @@ const RadialSupportMenu = () => {
 // Updated helper function to calculate positions towards top-left
 function getCoordinates(index: number, total: number) {
   const radius = 80; // Distance from center
-  // Start from top-left quadrant
+  // Changed to top-left quadrant (angles from PI to 1.5*PI)
   const angle = Math.PI + (index * (Math.PI / 2)) / (total - 1);
   
   return {

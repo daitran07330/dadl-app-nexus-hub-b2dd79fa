@@ -69,9 +69,10 @@ const Index = () => {
         <WinFormsSection />
       </div>
       
-      <div id="project">
+      {/* Temporarily comment out the Projects section */}
+      {/* <div id="project">
         <AnnouncementsSection />
-      </div>
+      </div> */}
       
       <div id="help">
         <SupportSection />

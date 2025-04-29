@@ -66,6 +66,7 @@ const WinFormsSection = () => {
                   className="card-flip-container h-full" 
                   onMouseEnter={() => handleMouseEnter(index)} 
                   onMouseLeave={handleMouseLeave}
+                  style={{ minHeight: '360px' }} // Set a fixed minimum height for the container
                 >
                   <div className={cn(
                     "card-flip-inner h-full",
@@ -212,6 +213,35 @@ const WinFormsSection = () => {
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* Add card flip styles */}
+      <style jsx global>{`
+        .card-flip-container {
+          perspective: 1000px;
+        }
+        .card-flip-inner {
+          position: relative;
+          width: 100%;
+          transition: transform 0.6s;
+          transform-style: preserve-3d;
+        }
+        .card-flipped {
+          transform: rotateY(180deg);
+        }
+        .card-flip-front, .card-flip-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        .card-flip-front {
+          z-index: 2;
+        }
+        .card-flip-back {
+          transform: rotateY(180deg);
+        }
+      `}</style>
     </section>
   );
 };
