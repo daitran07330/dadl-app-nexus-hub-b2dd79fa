@@ -63,17 +63,17 @@ const WinFormsSection = () => {
               {desktopApps.map((app, index) => (
                 <div 
                   key={index} 
-                  className="card-flip-container" 
+                  className="card-flip-container h-full" 
                   onMouseEnter={() => handleMouseEnter(index)} 
                   onMouseLeave={handleMouseLeave}
                 >
                   <div className={cn(
-                    "card-flip-inner",
+                    "card-flip-inner h-full",
                     flippedCard === index && "card-flipped"
                   )}>
                     {/* Card Front */}
-                    <div className="card-flip-front">
-                      <Card className="h-full transition-all duration-300 hover:shadow-lg hover:shadow-dandelion/20 hover:border-dandelion">
+                    <div className="card-flip-front h-full">
+                      <Card className="h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-dandelion/20 hover:border-dandelion">
                         <CardHeader className="pb-2">
                           <div className="flex items-center justify-between">
                             <span className="text-3xl mb-2">{app.icon}</span>
@@ -81,7 +81,7 @@ const WinFormsSection = () => {
                           </div>
                           <CardTitle className="text-xl text-darkLemonLime">{app.name}</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="flex-grow">
                           <CardDescription className="text-gray-600 mb-2">{app.description}</CardDescription>
                           <div className="text-sm text-gray-500">Size: {app.size}</div>
                         </CardContent>
@@ -94,7 +94,7 @@ const WinFormsSection = () => {
                     </div>
                     
                     {/* Card Back */}
-                    <div className="card-flip-back">
+                    <div className="card-flip-back h-full">
                       <Card className="h-full flex flex-col bg-darkLemonLime/10 border-dandelion">
                         <CardHeader>
                           <CardTitle className="text-xl text-darkLemonLime">{app.name} Details</CardTitle>

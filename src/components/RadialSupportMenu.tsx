@@ -96,24 +96,20 @@ const RadialSupportMenu = () => {
   );
 };
 
-// Helper functions to calculate positions
+// Updated helper function to calculate positions towards top-left
 function getCoordinates(index: number, total: number) {
   const radius = 80; // Distance from center
-  // Start from top-left by adjusting the starting angle (3π/4 instead of -π/2)
-  const startAngle = 3 * Math.PI / 4;
-  // Distribute in the top-left quadrant (3π/4 to 7π/4)
-  const angleRange = Math.PI / 2; // Reduced angle range to focus on upper-left
-  const angle = startAngle - (index * angleRange) / (total - 1);
+  // Start from top-left quadrant
+  const angle = Math.PI + (index * (Math.PI / 2)) / (total - 1);
   
   return {
-    x: radius * Math.cos(angle),
-    y: radius * Math.sin(angle)
+    x: radius * Math.cos(angle), // Will be negative for left side
+    y: radius * Math.sin(angle)  // Will be negative for top side
   };
 }
 
+// This is a fallback function kept for compatibility
 function getPosition(index: number, total: number) {
-  // This is a fallback for the className-based positioning
-  // but we're using inline styles with calculated coordinates instead
   const positions = ["y-[-80px]", "x-[-80px]", "y-[80px]", "x-[80px]"];
   return positions[index % positions.length];
 }
