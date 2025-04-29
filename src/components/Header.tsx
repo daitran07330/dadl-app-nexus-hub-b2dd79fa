@@ -33,7 +33,13 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Add smooth scrolling with easing
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+      });
+      
+      // Prevent default action for anchor links
+      return false;
     }
   };
 
@@ -48,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
         <div className="flex items-center">
           <a href="#" 
             className="text-xl md:text-2xl font-bold text-acidGreen text-shadow-glow hover:animate-scale transform transition-transform origin-left"
-            onClick={() => handleMenuClick('home')}
+            onClick={(e) => { e.preventDefault(); handleMenuClick('home'); }}
           >
             DADL App Hub
           </a>
@@ -59,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
             <a
               key={item.id}
               href={`#${item.id}`}
-              onClick={() => handleMenuClick(item.id)}
+              onClick={(e) => { e.preventDefault(); handleMenuClick(item.id); }}
               className={cn(
                 'underline-animation font-medium hover:scale-110 transition-transform',
                 activeSection === item.id ? 'text-dandelion' : 'text-darkGray hover:text-darkLemonLime'

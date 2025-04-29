@@ -7,14 +7,24 @@ import WinFormsSection from '@/components/WinFormsSection';
 import AnnouncementsSection from '@/components/AnnouncementsSection';
 import SupportSection from '@/components/SupportSection';
 import Footer from '@/components/Footer';
+import RadialSupportMenu from '@/components/RadialSupportMenu';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const appDashboardRef = useRef<HTMLDivElement>(null);
 
   const scrollToAppDashboard = () => {
-    appDashboardRef.current?.scrollIntoView({ behavior: 'smooth' });
-    setActiveSection('web');
+    if (appDashboardRef.current) {
+      // Adding smooth scrolling with easing
+      appDashboardRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+      });
+      
+      // Update active section after scrolling
+      setTimeout(() => {
+        setActiveSection('web');
+      }, 500); // Add a delay to match the scroll animation
+    }
   };
 
   return (
@@ -23,17 +33,26 @@ const Index = () => {
       
       <HeroSection onScroll={scrollToAppDashboard} />
       
-      <div ref={appDashboardRef}>
+      <div id="web" ref={appDashboardRef}>
         <AppDashboard />
       </div>
       
-      <WinFormsSection />
+      <div id="desktop">
+        <WinFormsSection />
+      </div>
       
-      <AnnouncementsSection />
+      <div id="project">
+        <AnnouncementsSection />
+      </div>
       
-      <SupportSection />
+      <div id="help">
+        <SupportSection />
+      </div>
       
       <Footer />
+      
+      {/* Add the Radial Support Menu */}
+      <RadialSupportMenu />
     </div>
   );
 };

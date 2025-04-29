@@ -119,6 +119,10 @@ export default {
 				'float': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-10px)' }
+				},
+				'slide-in-up': {
+					'0%': { transform: 'translateY(50px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
 				}
 			},
 			animation: {
@@ -132,7 +136,8 @@ export default {
 				'typing': 'typing 3.5s steps(40, end)',
 				'blink-caret': 'blink-caret 0.75s step-end infinite',
 				'scale': 'scale 0.3s ease forwards',
-				'float': 'float 6s ease-in-out infinite'
+				'float': 'float 6s ease-in-out infinite',
+				'slide-in-up': 'slide-in-up 0.6s ease forwards'
 			},
 			backgroundImage: {
 				'hero-gradient': 'radial-gradient(circle, #74A235 0%, rgba(255,255,255,0.2) 100%)',
