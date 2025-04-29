@@ -99,10 +99,15 @@ const RadialSupportMenu = () => {
 // Helper functions to calculate positions
 function getCoordinates(index: number, total: number) {
   const radius = 80; // Distance from center
-  const angle = (index * (2 * Math.PI)) / total;
+  // Start from top-left by adjusting the starting angle (3π/4 instead of -π/2)
+  const startAngle = 3 * Math.PI / 4;
+  // Distribute in the top-left quadrant (3π/4 to 7π/4)
+  const angleRange = Math.PI / 2; // Reduced angle range to focus on upper-left
+  const angle = startAngle - (index * angleRange) / (total - 1);
+  
   return {
-    x: radius * Math.cos(angle - Math.PI/2), // Start from top (subtract Pi/2)
-    y: radius * Math.sin(angle - Math.PI/2)
+    x: radius * Math.cos(angle),
+    y: radius * Math.sin(angle)
   };
 }
 

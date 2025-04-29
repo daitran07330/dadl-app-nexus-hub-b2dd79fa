@@ -1,5 +1,5 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AppDashboard from '@/components/AppDashboard';
@@ -13,17 +13,45 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const appDashboardRef = useRef<HTMLDivElement>(null);
 
+  // Observer for section animations
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Add animation classes when section is visible
+          const headers = entry.target.querySelectorAll('[data-section-header], [data-section-description]');
+          headers.forEach(header => {
+            header.classList.add('animate-active');
+          });
+        }
+      });
+    }, { threshold: 0.25 });
+
+    // Observe all sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    return () => {
+      sections.forEach(section => {
+        observer.unobserve(section);
+      });
+    };
+  }, []);
+
   const scrollToAppDashboard = () => {
     if (appDashboardRef.current) {
       // Adding smooth scrolling with easing
       appDashboardRef.current.scrollIntoView({ 
         behavior: 'smooth',
+        block: 'start'
       });
       
       // Update active section after scrolling
       setTimeout(() => {
         setActiveSection('web');
-      }, 500); // Add a delay to match the scroll animation
+      }, 800); // Add a longer delay to match the scroll animation
     }
   };
 

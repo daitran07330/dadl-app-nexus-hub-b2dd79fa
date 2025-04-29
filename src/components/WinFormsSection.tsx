@@ -1,12 +1,15 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Download, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cn } from '@/lib/utils';
 
 const WinFormsSection = () => {
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  
   const desktopApps = [
     {
       name: 'Inventory Management',
@@ -34,11 +37,19 @@ const WinFormsSection = () => {
     }
   ];
 
+  const handleMouseEnter = (index: number) => {
+    setFlippedCard(index);
+  };
+
+  const handleMouseLeave = () => {
+    setFlippedCard(null);
+  };
+
   return (
     <section id="desktop" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-2 text-darkLemonLime">Desktop Applications</h2>
-        <p className="text-gray-600 text-center mb-8">Download and install our WinForms applications</p>
+        <h2 className="text-3xl font-bold text-center mb-2 text-darkLemonLime animate-slide-in-right opacity-0" data-section-header>Desktop Applications</h2>
+        <p className="text-gray-600 text-center mb-8 animate-slide-in-right opacity-0 animation-delay-200" data-section-description>Download and install our WinForms applications</p>
 
         <Tabs defaultValue="apps" className="w-full max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-3 mb-8">
@@ -50,24 +61,72 @@ const WinFormsSection = () => {
           <TabsContent value="apps" className="mt-0">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {desktopApps.map((app, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:border-dandelion hover:shadow-dandelion/20">
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-3xl mb-2">{app.icon}</span>
-                      <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">v{app.version}</span>
+                <div 
+                  key={index} 
+                  className="card-flip-container" 
+                  onMouseEnter={() => handleMouseEnter(index)} 
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className={cn(
+                    "card-flip-inner",
+                    flippedCard === index && "card-flipped"
+                  )}>
+                    {/* Card Front */}
+                    <div className="card-flip-front">
+                      <Card className="h-full transition-all duration-300 hover:shadow-lg hover:shadow-dandelion/20 hover:border-dandelion">
+                        <CardHeader className="pb-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-3xl mb-2">{app.icon}</span>
+                            <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">v{app.version}</span>
+                          </div>
+                          <CardTitle className="text-xl text-darkLemonLime">{app.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <CardDescription className="text-gray-600 mb-2">{app.description}</CardDescription>
+                          <div className="text-sm text-gray-500">Size: {app.size}</div>
+                        </CardContent>
+                        <CardFooter>
+                          <Button className="w-full bg-acidGreen text-darkGray hover:bg-dandelion transition-all">
+                            <Download className="mr-2 h-4 w-4" /> Download
+                          </Button>
+                        </CardFooter>
+                      </Card>
                     </div>
-                    <CardTitle className="text-xl text-darkLemonLime">{app.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-600 mb-2">{app.description}</CardDescription>
-                    <div className="text-sm text-gray-500">Size: {app.size}</div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full bg-acidGreen text-darkGray hover:bg-dandelion transition-all">
-                      <Download className="mr-2 h-4 w-4" /> Download
-                    </Button>
-                  </CardFooter>
-                </Card>
+                    
+                    {/* Card Back */}
+                    <div className="card-flip-back">
+                      <Card className="h-full flex flex-col bg-darkLemonLime/10 border-dandelion">
+                        <CardHeader>
+                          <CardTitle className="text-xl text-darkLemonLime">{app.name} Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                          <div className="space-y-3 text-sm">
+                            <div>
+                              <span className="font-medium">Version:</span> {app.version}
+                            </div>
+                            <div>
+                              <span className="font-medium">System Requirements:</span> {app.requirements}
+                            </div>
+                            <div>
+                              <span className="font-medium">File Size:</span> {app.size}
+                            </div>
+                            <div>
+                              <span className="font-medium">Last Updated:</span> April 15, 2025
+                            </div>
+                            <div>
+                              <span className="font-medium">Available Modules:</span> Core, Advanced, Enterprise
+                            </div>
+                          </div>
+                        </CardContent>
+                        <CardFooter>
+                          <Button className="w-full bg-dandelion text-darkGray hover:bg-acidGreen transition-all">
+                            <Info className="mr-2 h-4 w-4" /> View Documentation
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </TabsContent>

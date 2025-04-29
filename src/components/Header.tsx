@@ -24,10 +24,27 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      
+      // Check which section is currently in view
+      const sections = menuItems.map(item => document.getElementById(item.id));
+      const scrollPosition = window.scrollY + 100; // Add offset for header
+
+      // Find the section that's currently in view
+      sections.forEach((section) => {
+        if (!section) return;
+        
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          setActiveSection(section.id);
+        }
+      });
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [setActiveSection, menuItems]);
 
   const handleMenuClick = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -36,6 +53,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
       // Add smooth scrolling with easing
       element.scrollIntoView({ 
         behavior: 'smooth',
+        block: 'start'
       });
       
       // Prevent default action for anchor links
@@ -68,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
               onClick={(e) => { e.preventDefault(); handleMenuClick(item.id); }}
               className={cn(
                 'underline-animation font-medium hover:scale-110 transition-transform',
-                activeSection === item.id ? 'text-dandelion' : 'text-darkGray hover:text-darkLemonLime'
+                activeSection === item.id ? 'text-dandelion active-nav-link' : 'text-darkGray hover:text-darkLemonLime'
               )}
             >
               {item.label}
